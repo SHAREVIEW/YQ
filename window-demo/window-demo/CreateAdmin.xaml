@@ -1,0 +1,39 @@
+﻿<Window x:Class="window_demo.CreateAdmin"
+     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CreateAdmin" Height="300" Width="400" ResizeMode="NoResize">
+    <StackPanel>
+        <Grid Margin="0,0,-8,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Grid.Column="0" Content="User Name:"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Password:"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Confirm Password:"/>
+            <Label Grid.Row="4" Grid.Column="0" Content="Email Address:"/>
+            <Label Grid.Row="0" Grid.Column="1" Content="Please Create Administrator &#x0a;Account." FontSize="20" Margin="0,0,-130,0" FontWeight="ExtraBlack" HorizontalAlignment="Left" Width="331"/>
+
+            <TextBox Name="userNameBox" Grid.Column="1" Grid.Row="1" Margin="3"  />
+
+            <PasswordBox Grid.Column="1" Grid.Row="2" Margin="3" Name="passwordBox" />
+            <PasswordBox Grid.Column="1" Grid.Row="3" Margin="3" Name="passwordConfirmBox"  />
+            <TextBox Grid.Column="1" Grid.Row="4" Margin="3" Name="emailBox" />
+            <Button Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" 
+            MinWidth="80" Margin="3" Content="Ok" Click="okClick"  />
+            <Button Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right" 
+            MinWidth="80" Margin="3" Content="Cancel" Click="cancelClick" />
+            <Image HorizontalAlignment="Left" Height="61" Margin="10,10,0,0" VerticalAlignment="Top" Width="73"/>
+            <TextBlock Height="20" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" x:Name ="errormessage" VerticalAlignment="Top" Width="Auto"  OpacityMask="Crimson" Foreground="#FFE5572C" />
+        </Grid>
+    </StackPanel>
+</Window>

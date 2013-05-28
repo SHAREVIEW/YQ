@@ -1,0 +1,47 @@
+﻿<Window x:Class="window_demo.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AdminWindow" Height="450" Width="625">
+    <Grid>
+        <ToggleButton Name="tgbtn1" Height="26"
+          HorizontalAlignment="Left"
+          Margin="296,101,0,0"
+          VerticalAlignment="Top"
+          Width="69"
+          IsEnabled="True"
+          Checked="bluetooth_connect"
+          Unchecked="bluetooth_disconnect">Unsecured</ToggleButton>
+        <ToggleButton Name="tgbtn2" Height="26"
+          HorizontalAlignment="Left"
+          Margin="469,101,0,0"
+          VerticalAlignment="Top"
+          Width="69"
+          IsEnabled="True"
+          Checked="wireless_connect"
+          Unchecked="wireless_disconnect">Unsecured</ToggleButton>
+        <Grid HorizontalAlignment="Left" Height="265" Margin="432,101,0,0" VerticalAlignment="Top" Width="115">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="47*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.492,-0.743"/>
+            <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.459,0.59"/>
+            <Button Name="wireless" Content="Settings" HorizontalAlignment="Left" Margin="51,87,0,0" VerticalAlignment="Top" Width="54" RenderTransformOrigin="1.155,0.653" Click="wireless_click"/>
+            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="289" Margin="-13,-13,0,-11" VerticalAlignment="Top" Width="128" Grid.ColumnSpan="2">
+                <ListBox Name="list2" HorizontalAlignment="Left" Height="131" VerticalAlignment="Top" Width="110" Margin="8,134,0,0" Background="Azure"/>
+            </Border>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="265" Margin="250,101,0,0" VerticalAlignment="Top" Width="126">
+            <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top"/>
+            <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="bluetooth" Content="Settings" HorizontalAlignment="Left" Margin="53,87,0,0" VerticalAlignment="Top" Width="63" RenderTransformOrigin="1.203,0.653" Click="bluetooth_Click"/>
+        </Grid>
+        <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Left" Height="289" Margin="240,87,0,0" VerticalAlignment="Top" Width="136">
+            <ListBox x:Name="list1" HorizontalAlignment="Left" Height="131" VerticalAlignment="Top" Width="116" Margin="9,137,0,0" Background="Azure"/>
+        </Border>
+        <Button x:Name="CreateUser" Content="Create User" HorizontalAlignment="Left" Margin="28,143,0,0" VerticalAlignment="Top" Width="85"  Click="createUserClick" />
+        <Button x:Name="CreateAdministrator" Content="Create Admin" HorizontalAlignment="Left" Margin="28,183,0,0" VerticalAlignment="Top" Width="85" Click="createAdminClick"/>
+        <Button x:Name="Logout" Content="Login as another user" HorizontalAlignment="Left" Margin="28,354,0,0" VerticalAlignment="Top" Width="124" Click="logOutClick"/>
+    </Grid>
+    
+</Window>

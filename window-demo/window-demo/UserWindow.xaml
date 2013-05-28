@@ -1,0 +1,27 @@
+﻿<Window x:Class="window_demo.UserWindow"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UserWindow" Height="500" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+
+
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="0" Content="--"/>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="User" FontSize="20" Margin="0,0,-130,0" FontWeight="ExtraBlack" HorizontalAlignment="Left" Width="331"/>
+
+
+        <TextBlock Height="20" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" x:Name ="errormessage" VerticalAlignment="Top" Width="Auto"  OpacityMask="Crimson" Foreground="#FFE5572C" />
+        <TextBlock x:Name="LogOut" Grid.Row="3" Grid.Column="0" FontSize="15" Text="Log Out" MouseLeftButtonDown="logOutClick"/>
+
+    </Grid>
+</Window>
