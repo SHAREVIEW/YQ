@@ -652,8 +652,9 @@ namespace window_demo
         }
         private void logOutClick(object sender, RoutedEventArgs e)
         {
-            if (creatingForm != null)
-                this.creatingForm.Close();
+            
+             this.Hide();
+            //Close();
             MainWindow window = new MainWindow();
             window.Show();
         }
