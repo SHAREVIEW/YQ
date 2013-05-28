@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using NativeWifi;
 using System.Collections.ObjectModel;
 using Microsoft.TeamFoundation.MVVM;
+using System.IO;
 
 namespace window_demo
 {
@@ -68,6 +69,8 @@ namespace window_demo
             unSecure.ItemsSource = (ObservableCollection<WirelessDevice>)e.Result;
             log.dispatchLogMessage("Background worker thread completed");
         }
+
+
         void bg_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -106,10 +109,15 @@ namespace window_demo
         }
         void initialiseLoggingFramework()
         {
+            //create a new folder directory to store the log files
+            string subPath = "C:\\ProtagLockit\\TempFolder"; 
+            bool IsExists = Directory.Exists(subPath);
+            if (!IsExists)
+                Directory.CreateDirectory(subPath);
 
             // Initialize the logging framework 
             log = Logger.Instance;
-            filelog = new FileLogger(@"c:\Sumeet\wirelesslog.txt");
+            filelog = new FileLogger(subPath + "\\wirelesslog.txt");
             log.dispatchLogMessage("Begin Logging for current session");
             log.dispatchLogMessage("***");
             log.registerObserver(filelog);
