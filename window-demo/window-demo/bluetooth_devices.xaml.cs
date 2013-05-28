@@ -22,8 +22,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
 
-// hdhfd
-
 namespace window_demo
 {
     /// <summary>

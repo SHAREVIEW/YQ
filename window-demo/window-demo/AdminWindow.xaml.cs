@@ -656,6 +656,7 @@ namespace window_demo
                 this.creatingForm.Close();
             MainWindow window = new MainWindow();
             window.Show();
+            this.Hide();
         }
 
     }

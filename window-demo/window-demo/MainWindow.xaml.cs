@@ -90,7 +90,7 @@ namespace window_demo
 
                                 MessageBox.Show("Welcome " + userName + "!");
                                 AdminWindow window = new AdminWindow();
-                                //Close();
+                                Close();
                                 window.setCreatingForm = this;
                                 window.Show();
 
@@ -108,8 +108,6 @@ namespace window_demo
                                 Close();
                                 userWindow.Show();
                             }
-
-
                         }
 
                         if (pass == null)
