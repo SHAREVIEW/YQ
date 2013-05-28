@@ -95,7 +95,7 @@ namespace window_demo
 
             // Initialize the logging framework 
             log = Logger.Instance;
-            filelog = new FileLogger(@"c:\Sumeet\bluetoothhlog.txt");
+            filelog = new FileLogger(@"C:\Users\Yuqing\bluetoothhlog.txt");
             log.dispatchLogMessage("Begin Logging for current session");
             log.dispatchLogMessage("***");
             log.registerObserver(filelog);

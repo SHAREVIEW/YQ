@@ -21,7 +21,7 @@ using InTheHand.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
-
+using System.IO;
 // hdhfd
 
 namespace window_demo
@@ -78,10 +78,15 @@ namespace window_demo
         }
         void initialiseLoggingFramework()
         {
+            //create a new folder directory to store the log files
+            string subPath = "C:\\ProtagLockit\\TempFolder";
+            bool IsExists = Directory.Exists(subPath);
+            if (!IsExists)
+                Directory.CreateDirectory(subPath);
 
             // Initialize the logging framework 
             log = Logger.Instance;
-            filelog = new FileLogger(@"c:\Sumeet\bluetoothhlog.txt");
+            filelog = new FileLogger(subPath + "\\bluetoothhlog.txt");
             log.dispatchLogMessage("Begin Logging for current session");
             log.dispatchLogMessage("***");
             log.registerObserver(filelog);
