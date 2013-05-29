@@ -92,8 +92,6 @@ namespace window_demo
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             ssh = new SessionSwitchEventHandler(SysEventsCheck);
             SystemEvents.SessionSwitch += ssh;
-<<<<<<< HEAD
-            initialiseLoggingFramework();
             initaliseWirelessList();
         }
 
@@ -145,10 +143,6 @@ namespace window_demo
             l.Add(preference1);
             l.Add(preference2);
             updateWirelessListView(l);
-
-=======
-            
->>>>>>> 8886ff09d84081f4548995e004000e4782fb4785
         }
 
         void initialiseLoggingFramework()
@@ -162,13 +156,8 @@ namespace window_demo
 
             // Initialize the logging framework 
             log = Logger.Instance;
-<<<<<<< HEAD
-            filelog = new FileLogger(subPath + "\\CombinedLog.txt");
-            log.dispatchLogMessage("Begin Logging for current session");
-            log.dispatchLogMessage("***");
-=======
+
             filelog = new FileLogger(subPath + "\\log.txt");
->>>>>>> 8886ff09d84081f4548995e004000e4782fb4785
             log.registerObserver(filelog);
             log.dispatchLogMessage("***");
             log.dispatchLogMessage("Begin Logging for current session....");
@@ -230,13 +219,13 @@ namespace window_demo
              * datagrid in order of preference . So first attempt to connect to device that apprears top in the datagrid 
              * and so on ...
              */
-<<<<<<< HEAD
+
             log = Logger.Instance;
             var mesg = "Background logging";
-=======
+
             //log = Logger.Instance;
-            var mesg ="Mainservices: Connecting to bluetooth devices";
->>>>>>> 8886ff09d84081f4548995e004000e4782fb4785
+             mesg ="Mainservices: Connecting to bluetooth devices";
+
             /*
              * Extract the preference order of the Bluetooth devices
              */
@@ -340,7 +329,6 @@ namespace window_demo
              * connected to the item in the top of the datagrid . The datagrid listed items is the order of preference that we follow.
              */
             log = Logger.Instance;
-            var mesg = "Background logging";
             /*
              * Extract the preference order of the Bluetooth devices
              */

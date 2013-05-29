@@ -20,7 +20,7 @@
             </DockPanel>
             <DockPanel  Grid.Column="2" Margin="0,0,0,71" >
                 <TextBox DockPanel.Dock="Top" Text="Secured Devices" IsReadOnly="True" HorizontalAlignment="Center" />
-                <DataGrid x:Name="Secure" ItemsSource="{Binding SecuredDevices}" Background="LightGray" RowBackground="LightYellow" AlternatingRowBackground="LightBlue" IsReadOnly="True" CanUserSortColumns = "False" ColumnWidth="*" Width="218" Margin="0,0,0,61" SelectionChanged="Secure_SelectionChanged"/>
+                <DataGrid x:Name="Secure" ItemsSource="{Binding SecuredDevices}" Background="LightGray" RowBackground="LightYellow" AlternatingRowBackground="LightBlue" IsReadOnly="True" CanUserSortColumns = "False" ColumnWidth="*" Width="218" Margin="0,0,0,61" />
             </DockPanel>
             <Button Content=">>" Grid.Column="1" Command="{Binding AddDevice}" CommandParameter="{Binding SelectedItem, ElementName=unSecure}" HorizontalAlignment="Left" Margin="0,91,0,0" VerticalAlignment="Top" Width="58"/>
             <Button Content="--" Grid.Column="1" Command="{Binding RemoveDevice}" CommandParameter="{Binding SelectedItem, ElementName=Secure}" HorizontalAlignment="Left" Margin="0,171,0,0" VerticalAlignment="Top" Width="58"/>

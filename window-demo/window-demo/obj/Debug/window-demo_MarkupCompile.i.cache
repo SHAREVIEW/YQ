@@ -4,21 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\
+C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\
 window_demo
 none
 false
 DEBUG;TRACE
-C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\App.xaml
+C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\App.xaml
 7-346668343
 1-205584205
-<<<<<<< HEAD
 18-440342095
 211156723997
-=======
-17-52595582
-211387877475
->>>>>>> 8886ff09d84081f4548995e004000e4782fb4785
 bluetooth_devices.xaml;CreateAdmin.xaml;CreateUser.xaml;MainWindow.xaml;AdminWindow.xaml;UserWindow.xaml;wireless_devices.xaml;
 
 False
