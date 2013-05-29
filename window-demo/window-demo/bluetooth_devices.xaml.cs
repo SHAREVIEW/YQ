@@ -21,11 +21,9 @@ using InTheHand.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
-<<<<<<< HEAD
-=======
+
 using System.IO;
-// hdhfd
->>>>>>> f489a07245aa5a194564110a5480f6464322394f
+
 
 namespace window_demo
 {
@@ -41,7 +39,7 @@ namespace window_demo
         BackgroundWorker bg;
         private Logger log;
         private FileLogger filelog;
-        Device device;
+
         AdminWindow mainform = null;
         List<String> selectedDevice = new List<String>();
         private ObservableCollection<Device> _unsecuredDevices = new ObservableCollection<Device>();
