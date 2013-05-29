@@ -21,13 +21,8 @@ using InTheHand.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
-<<<<<<< HEAD
-using System.IO;
-=======
-
 using System.IO;
 
->>>>>>> 41bbdbafca99a3769429af9a72e2da3745004c17
 
 namespace window_demo
 {
