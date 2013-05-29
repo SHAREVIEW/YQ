@@ -18,6 +18,7 @@ namespace window_demo
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -58,7 +59,7 @@ namespace window_demo
 
                 else
                 {
-                    string employeeId = employeeIDBox.Text; //get Id from form
+                    Global.empId = employeeIDBox.Text; //get Id from form
                     string password = passwordBox.Password; //get password from form
 
 
@@ -72,7 +73,7 @@ namespace window_demo
                         con = new MySqlConnection(str);
                         con.Open(); //open the connection
 
-                        MySqlCommand cmdOne = new MySqlCommand("SELECT Password, isAdmin, EmployeeId, UserName FROM employeetable WHERE EmployeeId=" + employeeId, con);
+                        MySqlCommand cmdOne = new MySqlCommand("SELECT Password, isAdmin, EmployeeId, UserName FROM employeetable WHERE EmployeeId=" + Global.empId, con);
 
                         cmdOne.ExecuteNonQuery();
                         reader = cmdOne.ExecuteReader();

@@ -16,6 +16,7 @@ using NativeWifi;
 using System.Collections.ObjectModel;
 using Microsoft.TeamFoundation.MVVM;
 using System.IO;
+using MySql.Data.MySqlClient;
 
 namespace window_demo
 {
@@ -34,7 +35,7 @@ namespace window_demo
         public wireless_devices(AdminWindow w)
         {
             mainform = w;
-            AddDevice = new RelayCommand(o => SecuredDevices.Add(o as WirelessDevice), o => o != null);
+            AddDevice = new RelayCommand(o => SecuredDevices.Add(o as WirelessDevice), o => (o != null && (SecuredDevices.Count <=1)));
             RemoveDevice = new RelayCommand(o => SecuredDevices.Remove(o as WirelessDevice), o => o != null);
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -64,10 +65,8 @@ namespace window_demo
         }
 
         void bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            
+        {          
             unSecure.ItemsSource = (ObservableCollection<WirelessDevice>)e.Result;
-            log.dispatchLogMessage("Background worker thread completed");
         }
 
 
@@ -109,6 +108,9 @@ namespace window_demo
         }
         void initialiseLoggingFramework()
         {
+            log = Logger.Instance;
+            log.dispatchLogMessage("Inside wireless_devices()");
+            /*
             //create a new folder directory to store the log files
             string subPath = "C:\\ProtagLockit\\TempFolder"; 
             bool IsExists = Directory.Exists(subPath);
@@ -121,22 +123,79 @@ namespace window_demo
             log.dispatchLogMessage("Begin Logging for current session");
             log.dispatchLogMessage("***");
             log.registerObserver(filelog);
+             */
         }
 
         private void Save_button(object sender, RoutedEventArgs e)
         {
             List<String> l = new List<String>();
+            String preference_1 = String.Empty, preference_2=String.Empty;
             int i = 0;
             foreach (var data in _securedDevices)
             {
+                
+                if (i == 0)
+                    preference_1 = data.SSID;
+                if (i == 1)
+                    preference_2 = data.SSID;
                 i++;
                 l.Add(data.SSID);
-                // We shall display only 5 names in the ListView for clarity .
-                if (i > 4)
-                    break;
             }
             mainform.updateWirelessListView(l);
             this.Close();
+
+            /*
+             * Lets save the preference into the database 
+             */
+            String a = Global.empId;
+            String str = @"server=localhost;database=users;userid=root;password=;";
+            MySqlConnection con = null;
+            MySqlDataReader reader = null;
+            int count;
+
+                  try
+                  {
+                        con = new MySqlConnection(str);
+                        con.Open(); //open the connection
+
+                        
+
+                        MySqlCommand cmdOne = new MySqlCommand("SELECT  EmployeeId FROM wireless_preference WHERE EmployeeId=" + Global.empId, con);
+
+                        cmdOne.ExecuteNonQuery();
+                        reader = cmdOne.ExecuteReader();
+                        count = reader.FieldCount;
+                        if (reader != null)
+                            reader.Close();
+                        if (count == 1)
+                        {
+                            //update
+                           // MySqlCommand cmd = new MySqlCommand("UPDATE wireless_preference SET preference_1='" + preference_1 + "',preference_2='" + preference_2 +"' WHERE EmployeeId='"+Global.empId +"'"), con);
+                            MySqlCommand cmd = new MySqlCommand("UPDATE wireless_preference SET preference_1='" + preference_1 + "' , preference_2='" + preference_2 + "' WHERE EmployeeId='" + Global.empId + "'", con);
+                            cmd.ExecuteNonQuery();
+                            log.dispatchLogMessage("Wirless services: Updated preference of user " +  Global.empId + " to : " + preference_1 + " & " + preference_2);
+                        }
+                        else
+                        {
+                            //insert 
+                            MySqlCommand cmd = new MySqlCommand("Insert into wireless_preference(EmployeeId,  preference_1,preference_2) values('" + Global.empId + "','" + preference_1 + "','" + preference_2 + "')", con);
+                            cmd.ExecuteNonQuery();
+                            log.dispatchLogMessage("Wirless services: Inserted new preference of user " + Global.empId + " to : " + preference_1 + " & " + preference_2);
+                        }
+
+                  }
+                  catch (MySqlException err) //capture and display any MySql errors that will occur
+                  {
+                      
+                      log.dispatchLogMessage("Wireless_devices : Mysql error inserting preference into the database " + err.ToString() +" ");
+                  }
+                  finally
+                  {
+                      if (con != null)
+                      {
+                          con.Close(); //safely close the connection
+                      }
+                  }        
         }
     }
 }

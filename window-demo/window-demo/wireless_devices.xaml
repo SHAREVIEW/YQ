@@ -14,8 +14,6 @@
                 <ColumnDefinition Width="68*"/>
                 <ColumnDefinition Width="241*"/>
             </Grid.ColumnDefinitions>
-            
-
             <DockPanel >
                 <TextBox DockPanel.Dock="Top" Text="Unsecured Devices" IsReadOnly="True" HorizontalAlignment="Center" />
                 <DataGrid x:Name="unSecure" ItemsSource="{Binding UnsecuredDevices}" Background="LightGray" RowBackground="LightYellow" AlternatingRowBackground="LightBlue" IsReadOnly="True" CanUserSortColumns = "False" ColumnWidth="*" Width="211"/>

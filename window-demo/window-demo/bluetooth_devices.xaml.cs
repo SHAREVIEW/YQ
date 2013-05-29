@@ -48,7 +48,7 @@ namespace window_demo
         public bluetooth_devices(AdminWindow w)
         {
             mainform = w;
-            AddDevice = new RelayCommand(o => SecuredDevices.Add(o as Device), o => o != null);
+            AddDevice = new RelayCommand(o => SecuredDevices.Add(o as Device), o => (o != null && (SecuredDevices.Count <= 1)));
             RemoveDevice = new RelayCommand(o => SecuredDevices.Remove(o as Device), o => o != null);
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
