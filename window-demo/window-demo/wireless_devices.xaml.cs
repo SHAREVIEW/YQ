@@ -38,7 +38,8 @@ namespace window_demo
             RemoveDevice = new RelayCommand(o => SecuredDevices.Remove(o as WirelessDevice), o => o != null);
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            initialiseLoggingFramework();
+            //initialiseLoggingFramework();
+            log = Logger.Instance;
             bg = new BackgroundWorker();
             bg.DoWork += new DoWorkEventHandler(bg_DoWork);
             bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunWorkerCompleted);
@@ -46,6 +47,7 @@ namespace window_demo
             {
                 bg.RunWorkerAsync();
             }
+
         }
 
         public ICommand AddDevice { get; set; }
@@ -67,7 +69,7 @@ namespace window_demo
         {
             
             unSecure.ItemsSource = (ObservableCollection<WirelessDevice>)e.Result;
-            log.dispatchLogMessage("Background worker thread completed");
+            log.dispatchLogMessage("Wireless_Devices: Background worker thread completed");
         }
 
 
@@ -81,11 +83,13 @@ namespace window_demo
                 // Lists all networks in the vicinity
 
                 Wlan.WlanAvailableNetwork[] networks = wlanIface.GetAvailableNetworkList(0);
+                string msg = "Wireless_devices: Found the following networks:";
+                log.dispatchLogMessage(msg);
                 foreach (Wlan.WlanAvailableNetwork network in networks)
                 {
 
                     string ssid = GetStringForSSID(network.dot11Ssid);
-                    string msg = "Found network with SSID " + ssid;
+                    msg = "Found network with SSID " + ssid;
                     log.dispatchLogMessage(msg);
                     msg = "Signal: " + network.wlanSignalQuality;
                     log.dispatchLogMessage(msg);
@@ -93,7 +97,7 @@ namespace window_demo
                     log.dispatchLogMessage(msg);
                     msg = "Profile Name : " + network.profileName;
                     log.dispatchLogMessage(msg);
-                    log.dispatchLogMessage("");
+                    
 
                     WirelessDevice d = new WirelessDevice(ssid , network.wlanSignalQuality);
                     devices.Add(d);
@@ -101,12 +105,14 @@ namespace window_demo
             }
             _unsecuredDevices = devices;
             e.Result = _unsecuredDevices;
+            log.dispatchLogMessage("***");
         }
 
         static string GetStringForSSID(Wlan.Dot11Ssid ssid)
         {
             return Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength);
         }
+
         void initialiseLoggingFramework()
         {
             //create a new folder directory to store the log files
@@ -127,16 +133,27 @@ namespace window_demo
         {
             List<String> l = new List<String>();
             int i = 0;
+            string msg = "Wireless_devices: Saved devices";
+            log.dispatchLogMessage(msg);
             foreach (var data in _securedDevices)
             {
                 i++;
                 l.Add(data.SSID);
+                msg = "Added " + data.SSID + " as a secured network";
+                log.dispatchLogMessage(msg);
                 // We shall display only 5 names in the ListView for clarity .
                 if (i > 4)
                     break;
             }
+            log.dispatchLogMessage("Saving successful");
+            log.dispatchLogMessage("***");
             mainform.updateWirelessListView(l);
             this.Close();
+        }
+
+        private void Secure_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {   
+            
         }
     }
 }

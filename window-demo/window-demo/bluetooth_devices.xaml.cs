@@ -21,11 +21,7 @@ using InTheHand.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Threading;
-<<<<<<< HEAD
-=======
 using System.IO;
-// hdhfd
->>>>>>> f489a07245aa5a194564110a5480f6464322394f
 
 namespace window_demo
 {
@@ -54,7 +50,8 @@ namespace window_demo
             RemoveDevice = new RelayCommand(o => SecuredDevices.Remove(o as Device), o => o != null);
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            initialiseLoggingFramework();
+            //initialiseLoggingFramework();
+            log = Logger.Instance;
             bg = new BackgroundWorker();
             bg.DoWork += new DoWorkEventHandler(bg_DoWork);
             bg.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunWorkerCompleted);
@@ -94,12 +91,16 @@ namespace window_demo
             log.dispatchLogMessage("***");
             log.registerObserver(filelog);
         }
+
         void bg_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //device_list.ItemsSource = (List<Device>)e.Result;
             unSecure.ItemsSource = (ObservableCollection<Device>)e.Result;
             pb.Visibility = Visibility.Hidden;
         }
+        
+
+
         void bg_DoWork(object sender, DoWorkEventArgs e)
         {
 
@@ -111,8 +112,8 @@ namespace window_demo
                 ObservableCollection<Device> devices = new ObservableCollection<Device>();
                 // Check if a Bluetooth radio is available on the system that is compatible with the 32Feet library.
                 // If not then exit.
-                log = Logger.Instance;
-                log.dispatchLogMessage("Attempting to find a Bluetooth radio ");
+                
+                log.dispatchLogMessage("Bluetooth_Devices: Attempting to find a Bluetooth radio ");
                 bool d = BluetoothRadio.IsSupported;
                 if (!d)
                 {
@@ -142,7 +143,7 @@ namespace window_demo
                 // This must be put in a try block 
                 InTheHand.Net.Sockets.BluetoothClient bc = new InTheHand.Net.Sockets.BluetoothClient();
                 InTheHand.Net.Sockets.BluetoothDeviceInfo[] array = bc.DiscoverDevices();
-                log.dispatchLogMessage("Bluetooth Devices found  in vicinity");
+                log.dispatchLogMessage("Bluetooth_Devices: Bluetooth Devices found  in vicinity");
 
                 int count = array.Length;
                 Device device;
@@ -169,7 +170,7 @@ namespace window_demo
                 List<Device> devices = new List<Device>();
                 // Check if a Bluetooth radio is available on the system that is compatible with the 32Feet library.
                 // If not then exit.
-                log.dispatchLogMessage("Attempting to find a Bluetooth radio ");
+                log.dispatchLogMessage("Bluetooth Devices: Attempting to find a Bluetooth radio ");
                 bool d = BluetoothRadio.IsSupported;
                 if (!d)
                 {
