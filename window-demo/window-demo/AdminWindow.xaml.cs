@@ -88,9 +88,11 @@ namespace window_demo
         public AdminWindow()
         {
             InitializeComponent();
+            initialiseLoggingFramework();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             ssh = new SessionSwitchEventHandler(SysEventsCheck);
             SystemEvents.SessionSwitch += ssh;
+<<<<<<< HEAD
             initialiseLoggingFramework();
             initaliseWirelessList();
         }
@@ -144,7 +146,11 @@ namespace window_demo
             l.Add(preference2);
             updateWirelessListView(l);
 
+=======
+            
+>>>>>>> 8886ff09d84081f4548995e004000e4782fb4785
         }
+
         void initialiseLoggingFramework()
         {
 
@@ -156,15 +162,21 @@ namespace window_demo
 
             // Initialize the logging framework 
             log = Logger.Instance;
+<<<<<<< HEAD
             filelog = new FileLogger(subPath + "\\CombinedLog.txt");
             log.dispatchLogMessage("Begin Logging for current session");
             log.dispatchLogMessage("***");
+=======
+            filelog = new FileLogger(subPath + "\\log.txt");
+>>>>>>> 8886ff09d84081f4548995e004000e4782fb4785
             log.registerObserver(filelog);
+            log.dispatchLogMessage("***");
+            log.dispatchLogMessage("Begin Logging for current session....");
+            log.dispatchLogMessage("***");
         }
 
         private void bluetooth_Click(object sender, RoutedEventArgs e)
         {
-
             bluetooth_devices window = new bluetooth_devices(this);
             window.Show();
         }
@@ -180,6 +192,7 @@ namespace window_demo
             list1.ItemsSource = l;
 
         }
+
         public void updateWirelessListView(List<String> l)
         {
             list2.ItemsSource = l;
@@ -217,8 +230,13 @@ namespace window_demo
              * datagrid in order of preference . So first attempt to connect to device that apprears top in the datagrid 
              * and so on ...
              */
+<<<<<<< HEAD
             log = Logger.Instance;
             var mesg = "Background logging";
+=======
+            //log = Logger.Instance;
+            var mesg ="Mainservices: Connecting to bluetooth devices";
+>>>>>>> 8886ff09d84081f4548995e004000e4782fb4785
             /*
              * Extract the preference order of the Bluetooth devices
              */
@@ -256,13 +274,18 @@ namespace window_demo
             startBluetooth = 2;
             LockWorkStation();
         }
+
         private void bluetooth_disconnect(object sender, RoutedEventArgs e)
         {
             tgbtn1.Content = "Unsecured";
 
         }
+
         private void wireless_connect(object sender, RoutedEventArgs e)
         {
+
+            log.dispatchLogMessage("Main services: connected to wireless networks");
+
             String device1 = String.Empty;
             String device2 = String.Empty;
 
@@ -332,6 +355,7 @@ namespace window_demo
         {
             return Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength);
         }
+
         void doBluetoothWork(String deviceName)
         {
 
@@ -711,6 +735,7 @@ namespace window_demo
             CreateAdmin createAdmin = new CreateAdmin();
             createAdmin.Show();
         }
+
         private void logOutClick(object sender, RoutedEventArgs e)
         {
 

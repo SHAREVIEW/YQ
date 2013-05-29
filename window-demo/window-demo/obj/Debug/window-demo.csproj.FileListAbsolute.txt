@@ -61,6 +61,10 @@ C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\window-dem
 C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\window-demo.g.resources
 C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\window_demo.Properties.Resources.resources
 C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\window-demo.csproj.GenerateResource.Cache
+<<<<<<< HEAD
+C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\window-demo_Content.g.cs
+C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Properties\Resources.Designer.cs
+=======
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\window-demo.csprojResolveAssemblyReference.cache
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\bluetooth_devices.baml
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\CreateAdmin.baml
@@ -91,3 +95,4 @@ C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Microsoft.Te
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\InTheHand.Net.Personal.xml
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\ManagedWifi.pdb
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Microsoft.WITDataStore.dll
+>>>>>>> 41bbdbafca99a3769429af9a72e2da3745004c17
