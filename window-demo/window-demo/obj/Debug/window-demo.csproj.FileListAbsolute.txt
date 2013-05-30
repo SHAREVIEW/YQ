@@ -101,3 +101,5 @@ C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Hardcodet.Wp
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Hardcodet.Wpf.TaskbarNotification.xml
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\FancyBalloon.baml
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\FancyBalloon.g.cs
+C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Hardcodet.Wpf.TaskbarNotification.pdb
+C:\Users\Yuqing\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Hardcodet.Wpf.TaskbarNotification.xml

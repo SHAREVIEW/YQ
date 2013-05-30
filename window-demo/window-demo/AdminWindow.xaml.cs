@@ -56,33 +56,43 @@ namespace window_demo
         public static extern bool LockWorkStation();
         void SysEventsCheck(object sender, SessionSwitchEventArgs e)
         {
-            switch (e.Reason)
+
+            try
             {
+                switch (e.Reason) 
+                {
 
-                case SessionSwitchReason.SessionUnlock:
-                    log.dispatchLogMessage("System has been UNLOCKED !  Re-initiating connection to a PROTAG device ! ");
-                    InitializeComponent();
-                    if (startBluetooth == 2)
-                    {
-                        bgBluetooth = new BackgroundWorker();
-                        bgBluetooth.DoWork += new DoWorkEventHandler(bg_DoBluetoothWork);
-                        bgBluetooth.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunBluetoothThreadCompleted);
-                        if (!bgBluetooth.IsBusy)
+                    case SessionSwitchReason.SessionUnlock:
+                        log.dispatchLogMessage("System has been UNLOCKED !  Re-initiating connection to a PROTAG device ! ");
+                        InitializeComponent();
+                        if (startBluetooth == 2)
                         {
+                            bgBluetooth = new BackgroundWorker();
+                            bgBluetooth.DoWork += new DoWorkEventHandler(bg_DoBluetoothWork);
+                            bgBluetooth.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunBluetoothThreadCompleted);
+                            if (!bgBluetooth.IsBusy)
+                            {
 
-                            bgBluetooth.RunWorkerAsync();
+                                bgBluetooth.RunWorkerAsync();
+                            }
                         }
-                    }
-                    if (startWireless == 2)
-                    {
-                        /*
-                         * Sleep for 20 seconds . 
-                         */
-                        System.Threading.Thread.Sleep(20000);
-                        checkCurrentWirelessCon();
-                        registerWlanListener();
-                    }
-                    break;
+                        if (startWireless == 2)
+                        {
+                            /*
+                             * Sleep for 20 seconds . 
+                             */
+                            System.Threading.Thread.Sleep(20000);
+                            checkCurrentWirelessCon();
+                            registerWlanListener();
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.dispatchLogMessage("MainServices: SystemEventsCheck" + ex.ToString());
+                
+
             }
         }
         public AdminWindow()
@@ -611,24 +621,34 @@ namespace window_demo
             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
             {
 
-                Wlan.WlanAssociationAttributes conAttributes = wlanIface.CurrentConnection.wlanAssociationAttributes;
-                Wlan.Dot11Ssid ssid = conAttributes.dot11Ssid;
+                //Wlan.WlanAssociationAttributes conAttributes;
+                //Wlan.Dot11Ssid ssid = conAttributes.dot11Ssid;
+                String nameOfSSID = null;
+
                 try
                 {
+                    Wlan.WlanAssociationAttributes conAttributes = wlanIface.CurrentConnection.wlanAssociationAttributes;
+                    Wlan.Dot11Ssid ssid = conAttributes.dot11Ssid;
+                    nameOfSSID = GetStringForSSID(ssid);
                     device1 = (String)list2.Items[0];
                     device2 = (String)list2.Items[1];
                 }
                 catch (Exception e)
                 {
+                    tgbtn2.Content = "Unsecured";
                     // If for some reason the device name is not populated then initialize it to NULL . 
                     device1 = null;
                     device2 = null;
+                    MessageBox.Show("Your computer is not connected to wireless networks! Retry");
+                    
+                    log.dispatchLogMessage("MainServices: " + e.ToString());
+
                 }
                 if (device1 != null && device2 != null)
                 {
-                    if (GetStringForSSID(ssid) != device1)
+                    if (nameOfSSID != device1)
                     {
-                        if (GetStringForSSID(ssid) != device2)
+                        if (nameOfSSID != device2)
                         {
                             var msg = "MainServices (checkWirelessConnection): Wireless connection is BROKEN ! Locking the system . ";
                             log.dispatchLogMessage(msg);
