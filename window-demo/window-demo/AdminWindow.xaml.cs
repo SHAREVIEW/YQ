@@ -57,9 +57,6 @@ namespace window_demo
         {
             switch (e.Reason)
             {
-                //case SessionSwitchReason.SessionLock :
-                // log.dispatchLogMessage("System has been LOCKED ! Check for Bluetooth Protag");
-                //break;
 
                 case SessionSwitchReason.SessionUnlock:
                     log.dispatchLogMessage("System has been UNLOCKED !  Re-initiating connection to a PROTAG device ! ");
@@ -77,7 +74,9 @@ namespace window_demo
                     }
                     if (startWireless == 2)
                     {
-
+                        /*
+                         * Sleep for 20 seconds . 
+                         */
                         System.Threading.Thread.Sleep(20000);
                         checkCurrentWirelessCon();
                         registerWlanListener();

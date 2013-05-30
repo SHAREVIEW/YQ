@@ -159,8 +159,6 @@ namespace window_demo
                 con = new MySqlConnection(str);
                 con.Open(); //open the connection
 
-
-
                 MySqlCommand cmdOne = new MySqlCommand("SELECT  EmployeeId FROM wireless_preference WHERE EmployeeId=" + Global.empId, con);
 
                 cmdOne.ExecuteNonQuery();
@@ -171,7 +169,6 @@ namespace window_demo
                 if (count == 1)
                 {
                     //update
-                    // MySqlCommand cmd = new MySqlCommand("UPDATE wireless_preference SET preference_1='" + preference_1 + "',preference_2='" + preference_2 +"' WHERE EmployeeId='"+Global.empId +"'"), con);
                     MySqlCommand cmd = new MySqlCommand("UPDATE wireless_preference SET preference_1='" + preference_1 + "' , preference_2='" + preference_2 + "' WHERE EmployeeId='" + Global.empId + "'", con);
                     cmd.ExecuteNonQuery();
                     log.dispatchLogMessage("Wirless services: Updated preference of user " + Global.empId + " to : " + preference_1 + " & " + preference_2);
