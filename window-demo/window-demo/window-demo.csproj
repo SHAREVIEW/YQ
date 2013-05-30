@@ -107,6 +107,7 @@
       <DependentUpon>CreateUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Device.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

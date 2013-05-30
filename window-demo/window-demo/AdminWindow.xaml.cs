@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using NativeWifi;
 using System.IO;
+using MySql.Data.MySqlClient;
 
 //
 
@@ -35,7 +36,6 @@ namespace window_demo
     public partial class AdminWindow : Window
     {
         BackgroundWorker bgBluetooth;
-        BackgroundWorker bgWireless;
         private Logger log;
         private FileLogger filelog;
         private SessionSwitchEventHandler ssh;
@@ -77,7 +77,7 @@ namespace window_demo
                     }
                     if (startWireless == 2)
                     {
-                        
+
                         System.Threading.Thread.Sleep(20000);
                         checkCurrentWirelessCon();
                         registerWlanListener();
@@ -92,7 +92,57 @@ namespace window_demo
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             ssh = new SessionSwitchEventHandler(SysEventsCheck);
             SystemEvents.SessionSwitch += ssh;
-            
+            initaliseWirelessList();
+        }
+
+        private void initaliseWirelessList()
+        {
+            List<String> l = new List<String>();
+
+            /*
+             * Query into the database to determine the users stored preferences 
+             */
+
+
+            String str = @"server=localhost;database=users;userid=root;password=;";
+            MySqlConnection con = null;
+            MySqlDataReader reader = null;
+            String preference1 = String.Empty;
+            String preference2 = String.Empty;
+
+            try
+            {
+                con = new MySqlConnection(str);
+                con.Open(); //open the connection
+
+                MySqlCommand cmdOne = new MySqlCommand("SELECT preference_1, preference_2 FROM wireless_preference WHERE EmployeeId=" + Global.empId, con);
+
+                cmdOne.ExecuteNonQuery();
+                reader = cmdOne.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    preference1 = reader.GetString(0);
+                    preference2 = reader.GetString(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.dispatchLogMessage("Exception obtained while fetching default values for wireles preferences from database " + ex.Message);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close(); //safely close the connection
+                }
+            }
+
+            if (reader != null)
+                reader.Close();
+            l.Add(preference1);
+            l.Add(preference2);
+            updateWirelessListView(l);
         }
 
         void initialiseLoggingFramework()
@@ -106,6 +156,7 @@ namespace window_demo
 
             // Initialize the logging framework 
             log = Logger.Instance;
+
             filelog = new FileLogger(subPath + "\\log.txt");
             log.registerObserver(filelog);
             log.dispatchLogMessage("***");
@@ -168,8 +219,13 @@ namespace window_demo
              * datagrid in order of preference . So first attempt to connect to device that apprears top in the datagrid 
              * and so on ...
              */
+
+            log = Logger.Instance;
+            var mesg = "Background logging";
+
             //log = Logger.Instance;
-            var mesg ="Mainservices: Connecting to bluetooth devices";
+             mesg ="Mainservices: Connecting to bluetooth devices";
+
             /*
              * Extract the preference order of the Bluetooth devices
              */
@@ -177,8 +233,8 @@ namespace window_demo
             String device1 = (String)list1.Items[0];
             //String device2 = (String)list1.Items[1];
             //String device3 = (String)list1.Items[2];
-            
-            if(device1!=null)
+
+            if (device1 != null)
             {
                 doBluetoothWork(device1);
                 mesg = "Mainservices : Bluetooth pairing is broken with device " + device1 + " .Now attempting to connect with next prefered device";
@@ -273,7 +329,6 @@ namespace window_demo
              * connected to the item in the top of the datagrid . The datagrid listed items is the order of preference that we follow.
              */
             log = Logger.Instance;
-            var mesg = "Background logging";
             /*
              * Extract the preference order of the Bluetooth devices
              */
@@ -282,7 +337,7 @@ namespace window_demo
             //String device3 = (String)list1.Items[2];
 
             registerWlanListener();
-            
+
         }
         static string GetStringForSSID(Wlan.Dot11Ssid ssid)
         {
@@ -331,22 +386,22 @@ namespace window_demo
             BluetoothDeviceInfo dev;
             for (int i = 0; i < count; i++)
             {
-    
 
-                    Device device = new Device(array[i]);
-                    if (device.DeviceName == deviceName)
+
+                Device device = new Device(array[i]);
+                if (device.DeviceName == deviceName)
+                {
+                    /*
+                     * Here the maxTries refers to the number of times we will make an attempt to "connect" to the device . Later
+                     * the maxTries refer to the number of times we will make an attemp to "checkconnection" that was established earlier.
+                     */
+                    int attempts = 0;
+                    int maxTries = 3;
+
+
+                    while (attempts < maxTries)
                     {
-                        /*
-                         * Here the maxTries refers to the number of times we will make an attempt to "connect" to the device . Later
-                         * the maxTries refer to the number of times we will make an attemp to "checkconnection" that was established earlier.
-                         */
-                        int attempts = 0;
-                        int maxTries = 3;
 
-
-                        while (attempts < maxTries)
-                        {
-                            
                         log.dispatchLogMessage("Mainservices : Found a Bluetooth device to connect to ");
                         log.dispatchLogMessage("Mainservices : Attempting connection to : " + deviceName);
                         dev = array[i];
@@ -510,7 +565,7 @@ namespace window_demo
                             //WlanClient client = new WlanClient();
                             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
                             {
-                                
+
                                 Wlan.WlanAssociationAttributes conAttributes = wlanIface.CurrentConnection.wlanAssociationAttributes;
                                 Wlan.Dot11Ssid ssid = conAttributes.dot11Ssid;
                                 try
@@ -526,7 +581,7 @@ namespace window_demo
                                 }
                                 if (device1 != null && device2 != null)
                                 {
-                                    if (GetStringForSSID(ssid) != device1 )
+                                    if (GetStringForSSID(ssid) != device1)
                                     {
                                         if (GetStringForSSID(ssid) != device2)
                                         {
@@ -576,18 +631,18 @@ namespace window_demo
                 Wlan.Dot11Ssid ssid = conAttributes.dot11Ssid;
                 try
                 {
-                     device1 = (String)list2.Items[0];
-                     device2 = (String)list2.Items[1];
+                    device1 = (String)list2.Items[0];
+                    device2 = (String)list2.Items[1];
                 }
                 catch (Exception e)
-                { 
+                {
                     // If for some reason the device name is not populated then initialize it to NULL . 
                     device1 = null;
                     device2 = null;
                 }
-                if (device1 != null && device2!=null)
+                if (device1 != null && device2 != null)
                 {
-                    if (GetStringForSSID(ssid) != device1 )
+                    if (GetStringForSSID(ssid) != device1)
                     {
                         if (GetStringForSSID(ssid) != device2)
                         {
@@ -604,7 +659,7 @@ namespace window_demo
 
         private void registerWlanListener()
         {
-             
+
 
             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
             {
@@ -636,7 +691,7 @@ namespace window_demo
 
         private void unregisterWlanListener()
         {
-             
+
 
             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
             {
@@ -671,8 +726,8 @@ namespace window_demo
 
         private void logOutClick(object sender, RoutedEventArgs e)
         {
-            
-             this.Hide();
+
+            this.Hide();
             //Close();
             MainWindow window = new MainWindow();
             window.Show();
