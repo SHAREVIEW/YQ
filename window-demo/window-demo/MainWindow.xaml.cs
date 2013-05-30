@@ -121,7 +121,9 @@ namespace window_demo
 
                     catch (MySqlException err) //capture and display any MySql errors that will occur
                     {
-                        MessageBox.Show("Error: " + err.ToString());
+                        // Exception is connecting to the database 
+                        //MessageBox.Show("Error: " + err.ToString());
+                        MessageBox.Show("There is some error trying to connect to the database");
                     }
                     finally
                     {
