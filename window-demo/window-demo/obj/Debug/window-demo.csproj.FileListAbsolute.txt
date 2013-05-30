@@ -96,3 +96,8 @@ C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\InTheHand.Ne
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\ManagedWifi.pdb
 C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Microsoft.WITDataStore.dll
 >>>>>>> 41bbdbafca99a3769429af9a72e2da3745004c17
+C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Hardcodet.Wpf.TaskbarNotification.dll
+C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Hardcodet.Wpf.TaskbarNotification.pdb
+C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\bin\Debug\Hardcodet.Wpf.TaskbarNotification.xml
+C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\FancyBalloon.baml
+C:\Users\blue\Documents\GitHub\YQ\window-demo\window-demo\obj\Debug\FancyBalloon.g.cs

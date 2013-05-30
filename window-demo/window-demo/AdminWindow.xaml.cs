@@ -25,7 +25,8 @@ using Microsoft.Win32;
 using NativeWifi;
 using System.IO;
 using MySql.Data.MySqlClient;
-
+using Hardcodet.Wpf.TaskbarNotification;
+using System.Windows.Controls.Primitives;
 //
 
 namespace window_demo
@@ -92,6 +93,16 @@ namespace window_demo
             ssh = new SessionSwitchEventHandler(SysEventsCheck);
             SystemEvents.SessionSwitch += ssh;
             initaliseWirelessList();
+            /*
+             * A non admin does not need admin privledge . Hence disabling buttons which a non admin should not use .
+             */
+            if (!Global.isadmin)
+            {
+                bluetooth.IsEnabled = false;
+                wireless.IsEnabled = false;
+                CreateUser.IsEnabled = false;
+                CreateAdministrator.IsEnabled = false;
+            }
         }
 
         private void initaliseWirelessList()
@@ -114,7 +125,7 @@ namespace window_demo
                 con = new MySqlConnection(str);
                 con.Open(); //open the connection
 
-                MySqlCommand cmdOne = new MySqlCommand("SELECT preference_1, preference_2 FROM wireless_preference WHERE EmployeeId=" + Global.empId, con);
+                MySqlCommand cmdOne = new MySqlCommand("SELECT preference_1, preference_2 FROM wireless_preference ", con);
 
                 cmdOne.ExecuteNonQuery();
                 reader = cmdOne.ExecuteReader();
@@ -296,48 +307,22 @@ namespace window_demo
                 MessageBox.Show("No Safe Wireless connection specified. ");
             }
             else
+            {
                 tgbtn2.Content = "Secured";
+            }
             startWireless = 1;
             registerWlanListener();
             checkCurrentWirelessCon();
 
-            /*
-            bgWireless = new BackgroundWorker();
-            bgWireless.DoWork += new DoWorkEventHandler(bg_DoWirelessWork);
-            bgWireless.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bg_RunWirelessThreadCompleted);
-            if (!bgWireless.IsBusy)
-            {
-                bgWireless.RunWorkerAsync();
-            }
-             */
         }
         private void wireless_disconnect(object sender, RoutedEventArgs e)
         {
             tgbtn2.Content = "Unsecured";
             unregisterWlanListener();
-        }
-        private void bg_RunWirelessThreadCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
+            //Minimize the application to the taskbar
 
         }
 
-        private void bg_DoWirelessWork(object sender, DoWorkEventArgs e)
-        {
-            /*
-             * In case of wireless connections we need to be sure of the Network profile the system is connected to . It should be 
-             * connected to the item in the top of the datagrid . The datagrid listed items is the order of preference that we follow.
-             */
-            log = Logger.Instance;
-            /*
-             * Extract the preference order of the Bluetooth devices
-             */
-            String device1 = (String)list2.Items[0];
-            //String device2 = (String)list1.Items[1];
-            //String device3 = (String)list1.Items[2];
-
-            registerWlanListener();
-
-        }
         static string GetStringForSSID(Wlan.Dot11Ssid ssid)
         {
             return Encoding.ASCII.GetString(ssid.SSID, 0, (int)ssid.SSIDLength);

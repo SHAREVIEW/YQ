@@ -83,10 +83,11 @@ namespace window_demo
 
                             pass = reader.GetString(0);
                             bool admin = reader.GetBoolean(1);
+                            Global.isadmin = admin;
                             String Id = reader.GetString(2);
                             String userName = reader.GetString(3);
 
-                            if (pass == password && admin == true)
+                            if (pass == password )
                             {
 
                                 MessageBox.Show("Welcome " + userName + "!");
@@ -96,19 +97,20 @@ namespace window_demo
                                 window.Show();
 
                             }
-                            else if (pass != password)
+                            else if(pass != password)
                             {
                                 errormessage.Text = "You have entered the wrong password, try again";
                                 passwordBox.Focus();
 
                             }
+                            /*
                             else if (pass == password && admin == false)
                             {
                                 MessageBox.Show("Welcome " + userName + "!");
                                 UserWindow userWindow = new UserWindow();
                                 Close();
                                 userWindow.Show();
-                            }
+                            }*/
                         }
 
                         if (pass == null)
@@ -117,8 +119,6 @@ namespace window_demo
                         }
 
                     }
-
-
                     catch (MySqlException err) //capture and display any MySql errors that will occur
                     {
                         // Exception is connecting to the database 
