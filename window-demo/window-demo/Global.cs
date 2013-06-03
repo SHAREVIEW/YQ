@@ -13,6 +13,7 @@ namespace window_demo
     {
         private static string employeeId = "";
         private static bool isAdmin;
+        public static string empname = "";
 
         public static string empId
         {
@@ -24,5 +25,11 @@ namespace window_demo
             get { return isAdmin; }
             set { isAdmin = value; }
         }
+        public static string empName
+        {
+            get { return empname; }
+            set { empname = value; }
+        }
+        
     }
 }

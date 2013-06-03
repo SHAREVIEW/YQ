@@ -163,6 +163,9 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Resource Include="Images\secured.jpg" />
+    <Resource Include="Images\unsecured.jpg" />
+    <Resource Include="Images\settings.jpg" />
     <Content Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

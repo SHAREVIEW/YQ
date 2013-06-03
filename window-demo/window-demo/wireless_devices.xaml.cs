@@ -176,7 +176,7 @@ namespace window_demo
                 else
                 {
                     //insert 
-                    MySqlCommand cmd = new MySqlCommand("Insert into wireless_preference(EmployeeId,  preference_1,preference_2) values('" + Global.empId + "','" + preference_1 + "','" + preference_2 + "')", con);
+                    MySqlCommand cmd = new MySqlCommand("Insert into wireless_preference(EmployeeId,EmployeeName,  preference_1,preference_2) values('" + Global.empId + "','" + Global.empName + "','" + preference_1 + "','" + preference_2 + "')", con);
                     cmd.ExecuteNonQuery();
                     log.dispatchLogMessage("Wirless services: Inserted new preference of user " + Global.empId + " to : " + preference_1 + " & " + preference_2);
                 }

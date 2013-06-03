@@ -86,8 +86,9 @@ namespace window_demo
                             Global.isadmin = admin;
                             String Id = reader.GetString(2);
                             String userName = reader.GetString(3);
+                            Global.empName = userName;
 
-                            if (pass == password )
+                            if (pass == password && admin == true)
                             {
 
                                 MessageBox.Show("Welcome " + userName + "!");
@@ -103,14 +104,14 @@ namespace window_demo
                                 passwordBox.Focus();
 
                             }
-                            /*
+                            
                             else if (pass == password && admin == false)
                             {
                                 MessageBox.Show("Welcome " + userName + "!");
                                 UserWindow userWindow = new UserWindow();
                                 Close();
                                 userWindow.Show();
-                            }*/
+                            }
                         }
 
                         if (pass == null)

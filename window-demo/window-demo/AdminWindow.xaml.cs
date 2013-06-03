@@ -93,6 +93,14 @@ namespace window_demo
             ssh = new SessionSwitchEventHandler(SysEventsCheck);
             SystemEvents.SessionSwitch += ssh;
             initaliseWirelessList();
+            if (Global.isadmin)
+                initaliseLeftPanel();
+            else
+            {
+                List<String> l = new List<String>();
+                l.Add(Global.empName);
+                updateLeftPanelView(l);
+            }
             /*
              * A non admin does not need admin privledge . Hence disabling buttons which a non admin should not use .
              */
@@ -100,9 +108,62 @@ namespace window_demo
             {
                 bluetooth.IsEnabled = false;
                 wireless.IsEnabled = false;
-                CreateUser.IsEnabled = false;
-                CreateAdministrator.IsEnabled = false;
             }
+        }
+
+        private void initaliseLeftPanel()
+        {
+
+            List<String> l = new List<String>();
+
+            /*
+             * Query into the database to determine the users stored preferences 
+             */
+
+
+            String str = @"server=localhost;database=users;userid=root;password=;";
+            MySqlConnection con = null;
+            MySqlDataReader reader = null;
+            String preference1 = String.Empty;
+            String preference2 = String.Empty;
+
+            try
+            {
+                con = new MySqlConnection(str);
+                con.Open(); //open the connection
+
+                MySqlCommand cmdOne = new MySqlCommand("SELECT UserName FROM employeetable ", con);
+
+                cmdOne.ExecuteNonQuery();
+                reader = cmdOne.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    l.Add(reader.GetString(0));
+                }
+            }
+            catch (Exception ex)
+            {
+                log.dispatchLogMessage("Exception obtained while fetching values for employee names from database " + ex.Message);
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close(); //safely close the connection
+                }
+            }
+
+            if (reader != null)
+                reader.Close();
+
+            updateLeftPanelView(l);
+
+        }
+
+        private void updateLeftPanelView(List<string> l)
+        {
+            leftpanel.ItemsSource = l;
         }
 
         private void initaliseWirelessList()
@@ -125,7 +186,7 @@ namespace window_demo
                 con = new MySqlConnection(str);
                 con.Open(); //open the connection
 
-                MySqlCommand cmdOne = new MySqlCommand("SELECT preference_1, preference_2 FROM wireless_preference ", con);
+                MySqlCommand cmdOne = new MySqlCommand("SELECT preference_1, preference_2 FROM wireless_preference WHERE EmployeeId=" + Global.empId, con);
 
                 cmdOne.ExecuteNonQuery();
                 reader = cmdOne.ExecuteReader();
@@ -234,7 +295,7 @@ namespace window_demo
             var mesg = "Background logging";
 
             //log = Logger.Instance;
-             mesg ="Mainservices: Connecting to bluetooth devices";
+            mesg = "Mainservices: Connecting to bluetooth devices";
 
             /*
              * Extract the preference order of the Bluetooth devices
@@ -716,6 +777,123 @@ namespace window_demo
             MainWindow window = new MainWindow();
             window.Show();
             this.Hide();
+        }
+
+        private void leftpanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            object item = leftpanel.SelectedItem;
+            //String a = item.ToString();
+            log.dispatchLogMessage("Value of ITEM selected = " + item.ToString());
+            List<String> l = new List<String>();
+            String a = item.ToString();
+            /*
+             * Query into the database to determine the users stored preferences 
+             */
+            //if (item.ToString() != Global.empName)
+            {
+
+                String str = @"server=localhost;database=users;userid=root;password=;";
+                MySqlConnection con = null;
+                MySqlDataReader reader = null;
+                String preference1 = String.Empty;
+                String preference2 = String.Empty;
+
+                try
+                {
+                    con = new MySqlConnection(str);
+                    con.Open(); //open the connection
+
+                    MySqlCommand cmdOne = new MySqlCommand("SELECT preference_1,preference_2  FROM wireless_preference WHERE EmployeeName LIKE @Name", con);
+                    cmdOne.Parameters.Add(new MySqlParameter("Name", a));
+                    cmdOne.ExecuteNonQuery();
+                    reader = cmdOne.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        preference1 = reader.GetString(0);
+                        preference2 = reader.GetString(1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.dispatchLogMessage("Exception obtained while fetching default values for wireles preferences from database " + ex.Message);
+                }
+                finally
+                {
+                    if (con != null)
+                    {
+                        con.Close(); //safely close the connection
+                    }
+                }
+
+                if (reader != null)
+                    reader.Close();
+                l.Add(preference1);
+                l.Add(preference2);
+                updateWirelessListView(l);
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            /*
+             * Lets save the preference into the database 
+             */
+
+            object item = leftpanel.SelectedItem;
+            String a = item.ToString();
+            String preference_1 = String.Empty, preference_2 = String.Empty;
+            String a = Global.empId;
+            String str = @"server=localhost;database=users;userid=root;password=;";
+            MySqlConnection con = null;
+            MySqlDataReader reader = null;
+            int count;
+            String name;
+            foreach (string s in list2.Items)
+            {
+                name = s;
+                try
+                {
+                    con = new MySqlConnection(str);
+                    con.Open(); //open the connection
+
+                    MySqlCommand cmdOne = new MySqlCommand("SELECT  EmployeeId FROM wireless_preference WHERE EmployeeName LIKE @Name", con);
+                    cmdOne.Parameters.Add(new MySqlParameter("Name", a));
+                    cmdOne.ExecuteNonQuery();
+                    reader = cmdOne.ExecuteReader();
+                    count = reader.FieldCount;
+                    if (reader != null)
+                        reader.Close();
+                    if (count == 1)
+                    {
+                        //update
+                        MySqlCommand cmd = new MySqlCommand("UPDATE wireless_preference SET preference_1='" + preference_1 + "' , preference_2='" + preference_2 + "' WHERE EmployeeId='" + Global.empId + "'", con);
+                        cmd.ExecuteNonQuery();
+                        log.dispatchLogMessage("Wirless services: Updated preference of user " + Global.empId + " to : " + preference_1 + " & " + preference_2);
+                    }
+                    else
+                    {
+                        //insert 
+                        MySqlCommand cmd = new MySqlCommand("Insert into wireless_preference(EmployeeId,EmployeeName,  preference_1,preference_2) values('" + Global.empId + "','" + Global.empName + "','" + preference_1 + "','" + preference_2 + "')", con);
+                        cmd.ExecuteNonQuery();
+                        log.dispatchLogMessage("Wirless services: Inserted new preference of user " + Global.empId + " to : " + preference_1 + " & " + preference_2);
+                    }
+
+                }
+                catch (MySqlException err) //capture and display any MySql errors that will occur
+                {
+
+                    log.dispatchLogMessage("Wireless_devices : Mysql error inserting preference into the database " + err.ToString() + " ");
+                }
+                finally
+                {
+                    if (con != null)
+                    {
+                        con.Close(); //safely close the connection
+                    }
+                }
+            }
         }
 
     }
